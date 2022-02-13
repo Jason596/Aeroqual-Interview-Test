@@ -39,6 +39,6 @@ namespace ApiTest.Interfaces
         /// </summary>
         /// <param name="person"></param>
         /// <returns></returns>
-        Task DeletePerson(string personId);
+        Task DeletePersonById(string personId);
     }
 }

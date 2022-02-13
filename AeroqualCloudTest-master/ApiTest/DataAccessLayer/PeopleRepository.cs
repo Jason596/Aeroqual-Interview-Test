@@ -4,77 +4,112 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using ApiTest.Helper;
 using ApiTest.Interfaces;
 using ApiTest.Models;
+using Microsoft.Extensions.Logging;
 
 namespace ApiTest.DataAccessLayer
 {
     public class PeopleRepository : IPeopleRepository
     {
+        private readonly ILogger _logger;
+
+
+        public PeopleRepository(ILogger<PeopleRepository> logger)
+        {
+            _logger = logger;
+        }
+
+
         public async Task<People> GetPeople()
         {
-            var results = await File.ReadAllTextAsync("./Resources/data.json");
-            var resultsOfJson = JsonSerializer.Deserialize<People>(results);
+            var loggerPrefix = Logging.CreateLoggingPrefix(':', nameof(PeopleRepository), nameof(GetPeople));
+            _logger.LogInformation($"{loggerPrefix} method called");
 
-            return resultsOfJson;
+            try
+            {
+                var results = await File.ReadAllTextAsync("./Resources/data.json");
+                var resultsOfJson = JsonSerializer.Deserialize<People>(results);
+
+                return resultsOfJson;
+            }
+            catch (Exception err)
+            {
+                _logger.LogError($"{loggerPrefix} - {err.Message}");
+                throw;
+            }
         }
 
 
         public async Task<List<Person>> SearchByPersonName(string personName)
         {
+            var loggerPrefix = Logging.CreateLoggingPrefix(':', nameof(PeopleRepository), nameof(SearchByPersonName));
+            _logger.LogInformation($"{loggerPrefix} method called");
+
             var currentContent = await GetPeople();
-            var existingPerson = currentContent.ListOfPeoplePersons.Where(item =>
-                string.Equals(item.Name, personName, StringComparison.CurrentCultureIgnoreCase) || item.Name.ToLower()
-                .Contains(personName.ToLower())).ToList();
+            var existingPerson = currentContent.ListOfPeoplePersons.Where(
+                item => string.Equals(item.Name, personName, StringComparison.CurrentCultureIgnoreCase) ||
+                        item.Name.ToLower().Contains(personName.ToLower())).ToList();
+
             return existingPerson;
         }
 
 
         public async Task CreatePerson(Person person)
         {
-            var currentContent = await GetPeople();
-            var existingPerson = currentContent.ListOfPeoplePersons
-                .Where(item => item.Id == person.Id &&
-                                item.Name == person.Name &&
-                                item.Age == person.Age);
+            var loggerPrefix = Logging.CreateLoggingPrefix(':', nameof(PeopleRepository), nameof(CreatePerson));
+            _logger.LogInformation($"{loggerPrefix} method called");
 
-            if (!existingPerson.Any())
+            var currentContent = await GetPeople();
+            var isPersonExists = currentContent.ListOfPeoplePersons
+                .Where(item => item.Id == person.Id &&
+                               string.Equals(item.Name, person.Name, StringComparison.CurrentCultureIgnoreCase) &&
+                               item.Age == person.Age);
+
+            if (!isPersonExists.Any())
             {
                 currentContent.ListOfPeoplePersons.Add(person);
-                var personStringValue = JsonSerializer.Serialize(currentContent);
-                await File.WriteAllTextAsync("./Resources/data.json", personStringValue);
+                var newContent = JsonSerializer.Serialize(currentContent);
+                await File.WriteAllTextAsync("./Resources/data.json", newContent);
             }
         }
 
 
         public async Task UpdatePerson(Person person)
         {
+            var loggerPrefix = Logging.CreateLoggingPrefix(':', nameof(PeopleRepository), nameof(UpdatePerson));
+            _logger.LogInformation($"{loggerPrefix} method called");
+
             var currentContent = await GetPeople();
-            var existingPerson = currentContent.ListOfPeoplePersons
+            var isPersonExists = currentContent.ListOfPeoplePersons
                 .Where(item => item.Id == person.Id);
 
-            foreach (var item in existingPerson)
+            foreach (var item in isPersonExists)
             {
                 item.Name = person.Name;
                 item.Age = person.Age;
             }
 
-            var personStringValue = JsonSerializer.Serialize(currentContent);
-            await File.WriteAllTextAsync("./Resources/data.json", personStringValue);
-            }
+            var newContent = JsonSerializer.Serialize(currentContent);
+            await File.WriteAllTextAsync("./Resources/data.json", newContent);
+        }
 
 
-
-        public async Task DeletePerson(string personId)
+        public async Task DeletePersonById(string personId)
         {
-            var currentContent = await GetPeople();
-            var existingPerson = currentContent.ListOfPeoplePersons.First(item => item.Id == Convert.ToInt32(personId));
+            var loggerPrefix = Logging.CreateLoggingPrefix(':', nameof(PeopleRepository), nameof(DeletePersonById));
+            _logger.LogInformation($"{loggerPrefix} method called");
 
-            if (existingPerson != null)
+            var currentContent = await GetPeople();
+            var isPersonExists = currentContent.ListOfPeoplePersons.FirstOrDefault(item => item.Id == Convert.ToInt32
+            (personId));
+
+            if (isPersonExists != null)
             {
                 currentContent.ListOfPeoplePersons.RemoveAll(item => item.Id == Convert.ToInt32(personId));
-                var personStringValue = JsonSerializer.Serialize(currentContent);
-                await File.WriteAllTextAsync("./Resources/data.json", personStringValue);
+                var newContent = JsonSerializer.Serialize(currentContent);
+                await File.WriteAllTextAsync("./Resources/data.json", newContent);
             }
         }
     }
