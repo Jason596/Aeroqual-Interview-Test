@@ -17,5 +17,19 @@ namespace ApiTest.Interfaces
         /// <param name="person"></param>
         /// <returns></returns>
         Task CreatePerson(Person person);
+
+        /// <summary>
+        /// Update a person in the file
+        /// </summary>
+        /// <param name="person"></param>
+        /// <returns></returns>
+        Task UpdatePerson(Person person);
+
+        /// <summary>
+        /// Delete a person in the file
+        /// </summary>
+        /// <param name="person"></param>
+        /// <returns></returns>
+        Task DeletePerson(string personId);
     }
 }

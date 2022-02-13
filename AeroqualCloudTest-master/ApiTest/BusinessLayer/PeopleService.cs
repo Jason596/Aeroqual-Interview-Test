@@ -25,5 +25,17 @@ namespace ApiTest.BusinessLayer
         {
             await _peopleRepository.CreatePerson(person);
         }
+
+
+        public Task UpdatePerson(Person person)
+        {
+            throw new System.NotImplementedException();
+        }
+
+
+        public async Task DeletePerson(string personId)
+        {
+            await _peopleRepository.DeletePerson(personId);
+        }
     }
 }

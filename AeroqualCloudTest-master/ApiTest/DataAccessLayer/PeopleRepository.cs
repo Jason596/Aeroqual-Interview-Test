@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using System.Reflection.PortableExecutable;
@@ -31,6 +32,26 @@ namespace ApiTest.DataAccessLayer
             if (!existingPerson.Any())
             {
                 currentContent.ListOfPeoplePersons.Add(person);
+                var personStringValue = JsonSerializer.Serialize(currentContent);
+                await File.WriteAllTextAsync("./Resources/data.json", personStringValue);
+            }
+        }
+
+
+        public Task UpdatePerson(Person person)
+        {
+            throw new System.NotImplementedException();
+        }
+
+
+        public async Task DeletePerson(string personId)
+        {
+            var currentContent = await GetPeople();
+            var existingPerson = currentContent.ListOfPeoplePersons.First(item => item.Id == Convert.ToInt32(personId));
+
+            if (existingPerson != null)
+            {
+                currentContent.ListOfPeoplePersons.RemoveAll(item => item.Id == Convert.ToInt32(personId));
                 var personStringValue = JsonSerializer.Serialize(currentContent);
                 await File.WriteAllTextAsync("./Resources/data.json", personStringValue);
             }
