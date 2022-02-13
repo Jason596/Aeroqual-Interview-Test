@@ -19,5 +19,11 @@ namespace ApiTest.BusinessLayer
         {
             return _peopleRepository.GetPeople();
         }
+
+
+        public Task CreatePerson(Person person)
+        {
+            return _peopleRepository.CreatePerson(person);
+        }
     }
 }

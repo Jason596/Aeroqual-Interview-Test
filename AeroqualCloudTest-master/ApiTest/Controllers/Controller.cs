@@ -25,5 +25,13 @@ namespace ApiTest.Controllers
             return await _peopleService.GetPeople();
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> CreatePerson(Person person)
+        {
+            await _peopleService.CreatePerson(person);
+            return StatusCode(204);
+        }
+
     }
 }

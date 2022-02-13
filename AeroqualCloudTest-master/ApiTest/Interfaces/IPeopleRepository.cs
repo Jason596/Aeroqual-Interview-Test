@@ -10,5 +10,12 @@ namespace ApiTest.Interfaces
         /// </summary>
         /// <returns></returns>
         Task<People> GetPeople();
+
+        /// <summary>
+        ///  Adding a new person to the file
+        /// </summary>
+        /// <param name="person"></param>
+        /// <returns></returns>
+        Task CreatePerson(Person person);
     }
 }

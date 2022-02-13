@@ -1,7 +1,7 @@
 {
   "People": [
     {
-      "Id": 0, 
+      "Id": 0,
       "Name": "Fred",
       "Age": 12
     },
@@ -105,5 +105,5 @@
       "Name": "Romeo and Juliet",
       "Age": 14
     }
-  ] 
+  ]
 }
