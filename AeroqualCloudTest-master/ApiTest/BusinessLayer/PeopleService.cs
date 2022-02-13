@@ -1,4 +1,3 @@
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using ApiTest.Interfaces;
 using ApiTest.Models;
@@ -27,9 +26,9 @@ namespace ApiTest.BusinessLayer
         }
 
 
-        public Task UpdatePerson(Person person)
+        public async Task UpdatePerson(Person person)
         {
-            throw new System.NotImplementedException();
+            await _peopleRepository.UpdatePerson(person);
         }
 
 

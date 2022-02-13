@@ -38,10 +38,22 @@ namespace ApiTest.DataAccessLayer
         }
 
 
-        public Task UpdatePerson(Person person)
+        public async Task UpdatePerson(Person person)
         {
-            throw new System.NotImplementedException();
-        }
+            var currentContent = await GetPeople();
+            var existingPerson = currentContent.ListOfPeoplePersons
+                .Where(item => item.Id == person.Id);
+
+            foreach (var item in existingPerson)
+            {
+                item.Name = person.Name;
+                item.Age = person.Age;
+            }
+
+            var personStringValue = JsonSerializer.Serialize(currentContent);
+            await File.WriteAllTextAsync("./Resources/data.json", personStringValue);
+            }
+
 
 
         public async Task DeletePerson(string personId)

@@ -36,6 +36,14 @@ namespace ApiTest.Controllers
         }
 
 
+        [HttpPut]
+        public async Task<IActionResult> UpdatePerson(Person person)
+        {
+            await _peopleService.UpdatePerson(person);
+            return StatusCode(204);
+        }
+
+
         [HttpDelete]
         [Route("{personId}")]
         public async Task<IActionResult> DeletePersonById(string personId)
