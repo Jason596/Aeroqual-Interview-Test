@@ -15,15 +15,15 @@ namespace ApiTest.BusinessLayer
         }
 
 
-        public Task<People> GetPeople()
+        public async Task<People> GetPeople()
         {
-            return _peopleRepository.GetPeople();
+            return await _peopleRepository.GetPeople();
         }
 
 
-        public Task CreatePerson(Person person)
+        public async Task CreatePerson(Person person)
         {
-            return _peopleRepository.CreatePerson(person);
+            await _peopleRepository.CreatePerson(person);
         }
     }
 }

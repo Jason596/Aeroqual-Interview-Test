@@ -30,8 +30,10 @@ namespace ApiTest.Controllers
         public async Task<IActionResult> CreatePerson(Person person)
         {
             await _peopleService.CreatePerson(person);
-            return StatusCode(204);
+            return StatusCode(201);
         }
+
+
 
     }
 }
