@@ -1,6 +1,7 @@
 using ApiTest.BusinessLayer;
 using ApiTest.DataAccessLayer;
 using ApiTest.Interfaces;
+using ApiTest.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,7 +25,7 @@ namespace ApiTest
             services.AddControllers();
             services.AddTransient<IPeopleRepository, PeopleRepository>();
             services.AddTransient<IPeopleService, PeopleService>();
-
+            services.Configure<FilePathConfigModel>(con => Configuration.GetSection("FilePathConfigModel").Bind(con));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

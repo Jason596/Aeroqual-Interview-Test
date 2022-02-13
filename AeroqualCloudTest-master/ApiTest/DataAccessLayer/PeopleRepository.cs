@@ -8,17 +8,21 @@ using ApiTest.Helper;
 using ApiTest.Interfaces;
 using ApiTest.Models;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace ApiTest.DataAccessLayer
 {
     public class PeopleRepository : IPeopleRepository
     {
         private readonly ILogger _logger;
+        private readonly FilePathConfigModel _filePathConfigModel;
 
 
-        public PeopleRepository(ILogger<PeopleRepository> logger)
+        public PeopleRepository(ILogger<PeopleRepository> logger, IOptions<FilePathConfigModel> filePathConfigModel)
         {
             _logger = logger;
+            _filePathConfigModel = filePathConfigModel.Value;
+
         }
 
 
@@ -29,7 +33,8 @@ namespace ApiTest.DataAccessLayer
 
             try
             {
-                var currentContents = await File.ReadAllTextAsync("./Resources/data.json");
+                var currentDirectory = Directory.GetCurrentDirectory();
+                var currentContents = await File.ReadAllTextAsync($"{currentDirectory}{_filePathConfigModel.FilePath}");
 
                 if (string.IsNullOrWhiteSpace(currentContents))
                 {
@@ -79,7 +84,8 @@ namespace ApiTest.DataAccessLayer
             {
                 currentContent.ListOfPeoplePersons.Add(person);
                 var newContent = JsonSerializer.Serialize(currentContent);
-                await File.WriteAllTextAsync("./Resources/data.json", newContent);
+                var currentDirectory = Directory.GetCurrentDirectory();
+                await File.WriteAllTextAsync($"{currentDirectory}{_filePathConfigModel.FilePath}", newContent);
             }
         }
 
@@ -103,7 +109,8 @@ namespace ApiTest.DataAccessLayer
             }
 
             var newContent = JsonSerializer.Serialize(currentContent);
-            await File.WriteAllTextAsync("./Resources/data.json", newContent);
+            var currentDirectory = Directory.GetCurrentDirectory();
+            await File.WriteAllTextAsync($"{currentDirectory}{_filePathConfigModel.FilePath}", newContent);
         }
 
 
@@ -119,7 +126,8 @@ namespace ApiTest.DataAccessLayer
             {
                 currentContent.ListOfPeoplePersons.RemoveAll(item => item.Id == personId);
                 var newContent = JsonSerializer.Serialize(currentContent);
-                await File.WriteAllTextAsync("./Resources/data.json", newContent);
+                var currentDirectory = Directory.GetCurrentDirectory();
+                await File.WriteAllTextAsync($"{currentDirectory}{_filePathConfigModel.FilePath}", newContent);
             }
         }
     }
