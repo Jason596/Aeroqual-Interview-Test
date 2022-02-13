@@ -10,6 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiTest.BusinessLayer;
+using ApiTest.DataAccessLayer;
+using ApiTest.Interfaces;
 
 namespace ApiTest
 {
@@ -26,6 +29,9 @@ namespace ApiTest
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddTransient<IPeopleRepository, PeopleRepository>();
+            services.AddTransient<IPeopleService, PeopleService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

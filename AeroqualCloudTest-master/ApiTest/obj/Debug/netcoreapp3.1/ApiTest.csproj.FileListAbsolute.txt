@@ -1,6 +1,5 @@
 /Users/jasonwu/RiderProjects/Aeroqual-Interview-Test/AeroqualCloudTest-master/ApiTest/bin/Debug/netcoreapp3.1/appsettings.Development.json
 /Users/jasonwu/RiderProjects/Aeroqual-Interview-Test/AeroqualCloudTest-master/ApiTest/bin/Debug/netcoreapp3.1/appsettings.json
-/Users/jasonwu/RiderProjects/Aeroqual-Interview-Test/AeroqualCloudTest-master/ApiTest/bin/Debug/netcoreapp3.1/data.json
 /Users/jasonwu/RiderProjects/Aeroqual-Interview-Test/AeroqualCloudTest-master/ApiTest/bin/Debug/netcoreapp3.1/ApiTest
 /Users/jasonwu/RiderProjects/Aeroqual-Interview-Test/AeroqualCloudTest-master/ApiTest/bin/Debug/netcoreapp3.1/ApiTest.deps.json
 /Users/jasonwu/RiderProjects/Aeroqual-Interview-Test/AeroqualCloudTest-master/ApiTest/bin/Debug/netcoreapp3.1/ApiTest.runtimeconfig.json
@@ -18,3 +17,4 @@
 /Users/jasonwu/RiderProjects/Aeroqual-Interview-Test/AeroqualCloudTest-master/ApiTest/obj/Debug/netcoreapp3.1/ApiTest.dll
 /Users/jasonwu/RiderProjects/Aeroqual-Interview-Test/AeroqualCloudTest-master/ApiTest/obj/Debug/netcoreapp3.1/ApiTest.pdb
 /Users/jasonwu/RiderProjects/Aeroqual-Interview-Test/AeroqualCloudTest-master/ApiTest/obj/Debug/netcoreapp3.1/ApiTest.genruntimeconfig.cache
+/Users/jasonwu/RiderProjects/Aeroqual-Interview-Test/AeroqualCloudTest-master/ApiTest/bin/Debug/netcoreapp3.1/Resources/data.json

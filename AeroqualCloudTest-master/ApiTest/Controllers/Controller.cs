@@ -1,17 +1,28 @@
-using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using ApiTest.Interfaces;
+using ApiTest.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiTest.Controllers
 {
     [ApiController]
-    [Route("[people]")]
+    [Route("people")]
     public class Controller : ControllerBase
     {
+        private readonly IPeopleService _peopleService;
+
+
+        public Controller(IPeopleService peopleService)
+        {
+            _peopleService = peopleService;
+        }
+
 
         [HttpGet]
-        public void GetPeople()
+        public async Task<People> GetPeople()
         {
-
+            return await _peopleService.GetPeople();
         }
 
     }
