@@ -20,12 +20,14 @@ namespace ApiTest.Interfaces
         /// <returns></returns>
         Task<List<Person>> SearchByPersonName(string personName);
 
+
         /// <summary>
         ///  Adding a new person to the file
         /// </summary>
         /// <param name="person"></param>
         /// <returns></returns>
         Task CreatePerson(Person person);
+
 
         /// <summary>
         /// Update a person in the file
@@ -34,11 +36,12 @@ namespace ApiTest.Interfaces
         /// <returns></returns>
         Task UpdatePerson(Person person);
 
+
         /// <summary>
         /// Delete a person in the file
         /// </summary>
-        /// <param name="person"></param>
+        /// <param name="personId"></param>
         /// <returns></returns>
-        Task DeletePersonById(string personId);
+        Task DeletePersonById(int personId);
     }
 }

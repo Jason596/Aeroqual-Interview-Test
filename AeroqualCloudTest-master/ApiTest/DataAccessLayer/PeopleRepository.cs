@@ -29,9 +29,17 @@ namespace ApiTest.DataAccessLayer
 
             try
             {
-                var results = await File.ReadAllTextAsync("./Resources/data.json");
-                var resultsOfJson = JsonSerializer.Deserialize<People>(results);
+                var currentContents = await File.ReadAllTextAsync("./Resources/data.json");
 
+                if (string.IsNullOrWhiteSpace(currentContents))
+                {
+                    return new People()
+                    {
+                        ListOfPeoplePersons = new List<Person>()
+                    };
+                }
+
+                var resultsOfJson = JsonSerializer.Deserialize<People>(currentContents);
                 return resultsOfJson;
             }
             catch (Exception err)
@@ -83,7 +91,10 @@ namespace ApiTest.DataAccessLayer
 
             var currentContent = await GetPeople();
             var isPersonExists = currentContent.ListOfPeoplePersons
-                .Where(item => item.Id == person.Id);
+                .Where(item => item.Id == person.Id)
+                .ToList();
+
+            if (!isPersonExists.Any()) return;
 
             foreach (var item in isPersonExists)
             {
@@ -96,18 +107,17 @@ namespace ApiTest.DataAccessLayer
         }
 
 
-        public async Task DeletePersonById(string personId)
+        public async Task DeletePersonById(int personId)
         {
             var loggerPrefix = Logging.CreateLoggingPrefix(':', nameof(PeopleRepository), nameof(DeletePersonById));
             _logger.LogInformation($"{loggerPrefix} method called");
 
             var currentContent = await GetPeople();
-            var isPersonExists = currentContent.ListOfPeoplePersons.FirstOrDefault(item => item.Id == Convert.ToInt32
-            (personId));
+            var isPersonExists = currentContent.ListOfPeoplePersons.FirstOrDefault(item => item.Id == personId);
 
             if (isPersonExists != null)
             {
-                currentContent.ListOfPeoplePersons.RemoveAll(item => item.Id == Convert.ToInt32(personId));
+                currentContent.ListOfPeoplePersons.RemoveAll(item => item.Id == personId);
                 var newContent = JsonSerializer.Serialize(currentContent);
                 await File.WriteAllTextAsync("./Resources/data.json", newContent);
             }

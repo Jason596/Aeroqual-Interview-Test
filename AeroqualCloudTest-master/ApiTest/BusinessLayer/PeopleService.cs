@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ApiTest.Helper;
 using ApiTest.Interfaces;
 using ApiTest.Models;
 using Microsoft.Extensions.Logging;
+
 
 namespace ApiTest.BusinessLayer
 {
@@ -35,6 +37,11 @@ namespace ApiTest.BusinessLayer
             var loggerPrefix = Logging.CreateLoggingPrefix(':', nameof(PeopleService), nameof(SearchByPersonName));
             _logger.LogInformation($"{loggerPrefix} method called");
 
+            if (string.IsNullOrWhiteSpace(personName))
+            {
+                throw new Exception("Wrong person name.");
+            }
+
             return await _peopleRepository.SearchByPersonName(personName);
         }
 
@@ -62,7 +69,12 @@ namespace ApiTest.BusinessLayer
             var loggerPrefix = Logging.CreateLoggingPrefix(':', nameof(PeopleService), nameof(DeletePersonById));
             _logger.LogInformation($"{loggerPrefix} method called");
 
-            await _peopleRepository.DeletePersonById(personId);
+            if (int.TryParse(personId, out var personIdNumber))
+            {
+                await _peopleRepository.DeletePersonById(personIdNumber);
+            }
+
+            throw new Exception("Please enter correct person id.");
         }
     }
 }
