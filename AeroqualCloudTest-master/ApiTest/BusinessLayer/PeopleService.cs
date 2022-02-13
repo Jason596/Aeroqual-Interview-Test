@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ApiTest.Interfaces;
 using ApiTest.Models;
@@ -17,6 +18,12 @@ namespace ApiTest.BusinessLayer
         public async Task<People> GetPeople()
         {
             return await _peopleRepository.GetPeople();
+        }
+
+
+        public async Task<List<Person>> SearchByPersonName(string personName)
+        {
+            return await _peopleRepository.SearchByPersonName(personName);
         }
 
 

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection.PortableExecutable;
@@ -18,6 +19,16 @@ namespace ApiTest.DataAccessLayer
             var resultsOfJson = JsonSerializer.Deserialize<People>(results);
 
             return resultsOfJson;
+        }
+
+
+        public async Task<List<Person>> SearchByPersonName(string personName)
+        {
+            var currentContent = await GetPeople();
+            var existingPerson = currentContent.ListOfPeoplePersons.Where(item =>
+                string.Equals(item.Name, personName, StringComparison.CurrentCultureIgnoreCase) || item.Name.ToLower()
+                .Contains(personName.ToLower())).ToList();
+            return existingPerson;
         }
 
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ApiTest.Models;
 
@@ -11,6 +12,12 @@ namespace ApiTest.Interfaces
         /// <returns></returns>
         Task<People> GetPeople();
 
+        /// <summary>
+        /// Get a person by name
+        /// </summary>
+        /// <param name="personName"></param>
+        /// <returns></returns>
+        Task<List<Person>> SearchByPersonName(string personName);
 
         /// <summary>
         ///  Adding a new person to the file
@@ -27,13 +34,12 @@ namespace ApiTest.Interfaces
         /// <returns></returns>
         Task UpdatePerson(Person person);
 
+
         /// <summary>
         /// Delete a person in the file
         /// </summary>
         /// <param name="person"></param>
         /// <returns></returns>
         Task DeletePerson(string personId);
-
-
     }
 }

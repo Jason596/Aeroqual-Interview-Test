@@ -14,12 +14,10 @@ namespace ApiTest.Controllers
     {
         private readonly IPeopleService _peopleService;
 
-
         public Controller(IPeopleService peopleService)
         {
             _peopleService = peopleService;
         }
-
 
         [HttpGet]
         public async Task<People> GetPeople()
@@ -27,6 +25,12 @@ namespace ApiTest.Controllers
             return await _peopleService.GetPeople();
         }
 
+        [HttpGet]
+        [Route("~/person")]
+        public async Task<List<Person>> SearchByPersonName([FromQuery(Name = "personName")] string personName)
+        {
+            return await _peopleService.SearchByPersonName(personName);
+        }
 
         [HttpPost]
         public async Task<IActionResult> CreatePerson(Person person)

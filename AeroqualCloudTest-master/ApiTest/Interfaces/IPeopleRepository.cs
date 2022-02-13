@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ApiTest.Models;
 
@@ -10,6 +11,14 @@ namespace ApiTest.Interfaces
         /// </summary>
         /// <returns></returns>
         Task<People> GetPeople();
+
+
+        /// <summary>
+        ///  Get a person by name
+        /// </summary>
+        /// <param name="personName"></param>
+        /// <returns></returns>
+        Task<List<Person>> SearchByPersonName(string personName);
 
         /// <summary>
         ///  Adding a new person to the file
