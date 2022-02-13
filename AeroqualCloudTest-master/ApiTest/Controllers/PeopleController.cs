@@ -10,6 +10,10 @@ using Microsoft.Extensions.Logging;
 
 namespace ApiTest.Controllers
 {
+    /// <summary>
+    /// People controllers, allow user to create, update, delete and get people.
+    /// As well as search a person by name.
+    /// </summary>
     [ApiController]
     [Route("people")]
     public class PeopleController : ControllerBase
@@ -25,6 +29,10 @@ namespace ApiTest.Controllers
         }
 
 
+        /// <summary>
+        /// Get all the people.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<People>> GetPeople()
         {
@@ -45,10 +53,14 @@ namespace ApiTest.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Search a person by name.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("~/person")]
-        public async Task<ActionResult<List<Person>>> SearchByPersonName([FromQuery(Name = "personName")] string personName)
+        public async Task<ActionResult<List<Person>>> SearchByPersonName([FromQuery(Name = "name")] string personName)
         {
             var loggerPrefix = Logging.CreateLoggingPrefix(':', nameof(PeopleController), nameof(SearchByPersonName));
             _logger.LogInformation($"{loggerPrefix} method called");
@@ -68,6 +80,11 @@ namespace ApiTest.Controllers
         }
 
 
+        /// <summary>
+        /// Adding a new person.
+        /// </summary>
+        /// <param name="person"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> CreatePerson(Person person)
         {
@@ -90,6 +107,11 @@ namespace ApiTest.Controllers
         }
 
 
+        /// <summary>
+        /// Update a person information.
+        /// </summary>
+        /// <param name="person"></param>
+        /// <returns></returns>
         [HttpPut]
         public async Task<IActionResult> UpdatePerson(Person person)
         {
@@ -113,6 +135,11 @@ namespace ApiTest.Controllers
         }
 
 
+        /// <summary>
+        /// Delete a person by id.
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <returns></returns>
         [HttpDelete]
         [Route("{personId}")]
         public async Task<IActionResult> DeletePersonById(string personId)
